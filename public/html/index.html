@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Costly</title>
+    <link rel="stylesheet" href="../css/style.css" />
+    <!--Box icons-->
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet' />
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+</head>
+
+<body>
+    <!---header-->
+    <header>
+        <!---nav-->
+        <div class="nav container">
+            <!--menu icon-->
+            <i class="bx bx-menu" id='menu-icon'></i>
+            <!--logo-->
+            <a href="#" class="logo">Costly</a>
+            <!--navbar-->
+            <div class="navbar">
+                <a href="#" class="nav-link">Women</a>
+                <a href="#" class="nav-link">Men</a>
+                <a href="#" class="nav-link">Kids</a>
+                <a href="#" class="nav-link">Accessories</a>
+            </div>
+            <!--cart icon-->
+            <a href="../html/cart.html">
+                <i class='bx bx-shopping-bag' id="cart-icon" data-quantity="0"></i>
+            </a>
+        </div>
+    </header>
+    <!--home-->
+    <section class="home" id="" home>
+        <div class="home-img container">
+            <img src="../assets/home.png" alt="">
+        </div>
+    </section>
+
+    <!--products-->
+    <section class="products container" id="products">
+        <!--heading-->
+        <h2 class="heading">Discover Product</h2>
+        <!--products container-->
+        <div class="product-container" id="productList">
+
+        </div>
+    </section>
+
+
+
+    <!--product info-->
+    <div class="product-modal" id="productModal">
+        <div class="modal-content">
+            <button class="close-modal" id="closeModal">&times;</button>
+            <div class="modal-image">
+                <img src="" alt="Product Image" id="modalImage">
+            </div>
+            <div class="modal-details">
+                <h2 id="modalTitle"></h2>
+                <p id="modalPrice"></p>
+                <hr>
+                <h2>Similar Products</h2>
+                <!-- Dynamically populated recommended products will go here -->
+                <div class="recommended-products" id="recommendedProducts">
+                    <!-- Recommended products will be added here dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--footer-->
+    <div class="footer" id="footer">
+        <div class="footer-c container">
+            <div class="footer-box">
+                <h2>Costly</h2>
+                <div class="social">
+                    <a href="#"><i class='bx bxl-pinterest-alt'></i></a>
+                    <a href="#"><i class='bx bxl-instagram'></i></a>
+                    <a href="#"><i class='bx bxl-facebook'></i></a>
+                    <a href="#"><i class='bx bxl-whatsapp'></i></a>
+                    <a href="#"><i class='bx bxl-youtube'></i></a>
+                </div>
+            </div>
+            <div class="footer-box">
+                <h3>Help</h3>
+                <a href="#">Contact Us</a>
+                <a href="#">Faq</a>
+                <a href="#">Shipment</a>
+                <a href="#">Payment</a>
+                <a href="#">Track Your Order</a>
+                <a href="#">Return Your Order</a>
+            </div>
+            <div class="footer-box">
+                <h3>Legal Info</h3>
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms & Conditions</a>
+                <a href="#">Return Policy</a>
+                <a href="#">Communtiy</a>
+                <a href="#">Get Card</a>
+            </div>
+        </div>
+        <p class="copyright container">&#169 Costly</p>
+    </div>
+    <script src="../script/index.js"></script>
+    <script src="../script/menu.js"></script>
+</body>
+
+</html>
