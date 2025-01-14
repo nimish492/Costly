@@ -177,6 +177,10 @@ header.shadow {
   color: var(--main-color);
 }
 
+.product-catalog {
+  display: flex;
+  flex-direction: column;
+}
 .add-to-cart {
   background: var(--main-color);
   color: var(--bg-color);
@@ -317,6 +321,10 @@ header.shadow {
   position: relative; /* Needed for positioning the close button */
 }
 
+hr {
+  width: 100%;
+  margin: 5px;
+}
 .modal-image img {
   width: 300px;
   height: 300px;
@@ -329,6 +337,10 @@ header.shadow {
 }
 .modal-details {
   margin-left: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
 }
 
 .modal-details h2 {
@@ -339,6 +351,11 @@ header.shadow {
 .modal-details p {
   font-size: 1.5rem;
   color: var(--main-color);
+}
+
+#modalDescription {
+  font-size: 0.8rem;
+  font-family: cursive;
 }
 
 /* Close Button */
@@ -462,8 +479,8 @@ header.shadow {
     grid-template-columns: repeat(3, 1fr);
   }
   .modal-content {
-    max-width: 600px;
-    height: 68vh;
+    max-width: 620px;
+    height: 80vh;
   }
 
   .recommended-products {
@@ -499,7 +516,7 @@ header.shadow {
   .modal-content {
     max-width: 400px;
     flex-direction: column;
-    height: 92vh;
+    height: 100vh;
   }
   .modal-image img {
     height: 150px;
@@ -549,7 +566,7 @@ header.shadow {
   .modal-content {
     max-width: 400px;
     flex-direction: column;
-    height: 94vh;
+    height: 100vh;
   }
   .modal-image img {
     height: 150px;
@@ -578,5 +595,6 @@ header.shadow {
 
   .modal-content {
     max-width: 300px;
+    height: 110vh;
   }
 }
