@@ -479,13 +479,13 @@ hr {
     grid-template-columns: repeat(3, 1fr);
   }
   .modal-content {
-    max-width: 620px;
-    height: 80vh;
+    max-width: 652px;
+    height: 68vh;
   }
 
   .recommended-products {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
+    grid-template-columns: repeat(3, 1fr);
   }
   .modal-image {
     display: flex;
@@ -516,13 +516,17 @@ hr {
   .modal-content {
     max-width: 400px;
     flex-direction: column;
-    height: 100vh;
+    height: 86vh;
   }
   .modal-image img {
     height: 150px;
   }
   .modal-details {
     text-align: center;
+  }
+  .recommended-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 @media (max-width: 550px) {
@@ -566,13 +570,17 @@ hr {
   .modal-content {
     max-width: 400px;
     flex-direction: column;
-    height: 100vh;
+    height: 86vh;
   }
   .modal-image img {
     height: 150px;
   }
   .modal-details {
     text-align: center;
+  }
+  .recommended-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 
@@ -595,6 +603,11 @@ hr {
 
   .modal-content {
     max-width: 300px;
-    height: 110vh;
+    height: 89vh;
+  }
+
+  .recommended-products {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
   }
 }
