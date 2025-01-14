@@ -427,6 +427,13 @@ header.shadow {
   padding-top: 30px;
 }
 
+@media (max-width: 1496px) {
+  .modal-image img {
+    height: 260px;
+    object-fit: contain;
+  }
+}
+
 @media (max-width: 1150px) {
   .container {
     width: 90%;
@@ -438,7 +445,7 @@ header.shadow {
     top: -60px;
   }
   .modal-image img {
-    height: 340px;
+    height: 260px;
     object-fit: contain;
   }
 }
@@ -456,7 +463,7 @@ header.shadow {
   }
   .modal-content {
     max-width: 600px;
-    height: 56vh;
+    height: 68vh;
   }
 
   .recommended-products {
@@ -492,7 +499,7 @@ header.shadow {
   .modal-content {
     max-width: 400px;
     flex-direction: column;
-    height: 73vh;
+    height: 92vh;
   }
   .modal-image img {
     height: 150px;
