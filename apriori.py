@@ -6,7 +6,11 @@ from mlxtend.frequent_patterns import apriori, association_rules
 def apriori_algorithm(transaction_data, cart_data, min_support=0.01, min_confidence=0.5):
     # Convert transaction data into a DataFrame for the Apriori algorithm
     df = pd.DataFrame(transaction_data)
-    df = df.applymap(lambda x: list(set(x)) if isinstance(x, list) else x)
+    
+    # Replace applymap with map for element-wise transformation
+    df = df.apply(lambda x: list(set(x)) if isinstance(x, list) else x) 
+    
+    # Perform one-hot encoding of the DataFrame
     df_encoded = pd.get_dummies(df.stack()).groupby(level=0).sum().astype(bool)  # Fix sum error
     
     # Find frequent itemsets using Apriori algorithm
