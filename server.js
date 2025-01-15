@@ -1,5 +1,11 @@
 const express = require("express");
+const bodyParser = require("body-parser");
+const cors = require("cors");
+const { spawn } = require("child_process"); // Changed from PythonShell to spawn
 const path = require("path");
+const axios = require("axios");
+const fs = require("fs");
+const { promisify } = require("util");
 const app = express();
 const port = 3000;
 // Simulated recommendations database
@@ -303,7 +309,159 @@ app.get("/", (req, res) => {
 
 // Serve static files (e.g., product images)
 app.use(express.static("public"));
+app.use(cors());
+app.use(bodyParser.json());
 
+app.post("/recommend-frequently", (req, res) => {
+  const cartData = req.body.cartData; // Items in the current cart
+  console.log("Cart data:", cartData);
+  const transactionData = [
+    [1, 9],
+    [1, 15],
+    [1, 15],
+    [1, 15],
+    [1, 15],
+    [1, 15],
+    [1, 15],
+    [1, 15],
+    [18, 13],
+    [2, 34],
+    [5, 24],
+    [12, 26],
+    [19, 34],
+    [32, 22],
+    [1, 10],
+    [1, 15],
+    [3, 7],
+    [3, 9],
+    [4, 17],
+    [6, 7],
+    [6, 13],
+    [8, 23],
+    [9, 10],
+    [9, 15],
+    [11, 16],
+    [14, 21],
+    [15, 24],
+    [16, 31],
+    [17, 23],
+    [20, 36],
+    [21, 25],
+    [22, 34],
+    [23, 30],
+    [24, 36],
+    [25, 33],
+    [26, 39],
+    [27, 28],
+    [29, 37],
+    [33, 40],
+    [34, 38],
+    [35, 37],
+    [36, 37],
+    [40, 25],
+    [1, 9],
+    [18, 13],
+    [2, 34],
+    [5, 24],
+    [12, 26],
+    [19, 34],
+    [32, 22],
+    [1, 10],
+    [1, 15],
+    [3, 7],
+    [3, 9],
+    [4, 17],
+    [6, 7],
+    [6, 13],
+    [8, 23],
+    [9, 10],
+    [9, 15],
+    [11, 16],
+    [14, 21],
+    [15, 24],
+    [16, 31],
+    [17, 23],
+    [20, 36],
+    [21, 25],
+    [22, 34],
+    [23, 30],
+    [24, 36],
+    [25, 33],
+    [26, 39],
+    [27, 28],
+    [29, 37],
+    [33, 40],
+    [34, 38],
+    [35, 37],
+    [36, 37],
+    [40, 25],
+
+    [1, 9],
+    [18, 13],
+    [2, 34],
+    [5, 24],
+    [12, 26],
+    [19, 34],
+    [32, 22],
+    [1, 10],
+    [1, 15],
+    [3, 7],
+    [3, 9],
+    [4, 17],
+    [6, 7],
+    [6, 13],
+    [8, 23],
+    [9, 10],
+    [9, 15],
+    [11, 16],
+    [14, 21],
+    [15, 24],
+    [16, 31],
+    [17, 23],
+    [20, 36],
+    [21, 25],
+    [22, 34],
+    [23, 30],
+    [24, 36],
+    [25, 33],
+    [26, 39],
+    [27, 28],
+    [29, 37],
+    [33, 40],
+    [34, 38],
+    [35, 37],
+    [36, 37],
+    [40, 25],
+  ];
+
+  const data = {
+    cart_data: cartData,
+    transaction_data: transactionData,
+  };
+
+  const pythonProcess = spawn("python", ["apriori.py"]);
+
+  pythonProcess.stdin.write(JSON.stringify(data));
+  pythonProcess.stdin.end();
+
+  pythonProcess.stdout.on("data", (data) => {
+    try {
+      const recommendations = JSON.parse(data.toString());
+      console.log("Recommendations from Python script:", recommendations);
+      res.json(recommendations);
+    } catch (error) {
+      console.error("Error parsing Python response:", error);
+      res.status(500).json({
+        message: "Error processing recommendations",
+        error: error.message,
+      });
+    }
+  });
+
+  pythonProcess.stderr.on("data", (data) => {
+    console.error("Error in Python script:", data.toString());
+  });
+});
 // Start the server
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);

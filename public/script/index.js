@@ -410,6 +410,7 @@ function removeFromCart(event) {
   renderCartItems();
   calculateCartTotal();
   updateCartIcon();
+  getFrequently();
 }
 
 function changeQuantity(event) {
@@ -423,6 +424,7 @@ function changeQuantity(event) {
       saveToLocalStorage();
       calculateCartTotal();
       updateCartIcon();
+      getFrequently();
     }
   }
 }
@@ -481,6 +483,7 @@ function updateCartIcon() {
 if (window.location.pathname.includes("cart.html")) {
   renderCartItems();
   calculateCartTotal();
+  getFrequently();
 } else {
   renderProducts();
 }
@@ -522,4 +525,93 @@ function showRecommendedProducts(recommendedProducts) {
   });
 
   $("#recommendedProducts").html(recommendedHTML);
+}
+
+function getFrequently() {
+  // Check if the cart is empty
+  if (cart.length === 0) {
+    // Clear recommendations if the cart is empty
+    $("#recommendedfrequently").hide();
+    $("#frequent").hide();
+    return;
+  }
+  const cartItemIds = cart.map((item) => item.id); // Assuming `cart` is an array of cart items
+  fetch("/recommend-frequently", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      cartData: cartItemIds, // Send the cart item IDs to the server
+    }),
+  })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log("Recommendations received:", data); // Log the data received
+      if (data.length > 0) {
+        showRecommendations(data); // Assuming the response contains an array of recommendations
+      } else {
+        $("#recommendedfrequently").html();
+      }
+    })
+    .catch((error) => {
+      console.error("Error fetching recommendations:", error);
+    });
+}
+
+function showRecommendations(recommendations) {
+  let recommendedHTML = "";
+
+  // Group recommendations by antecedent
+  const groupedRecommendations = recommendations.reduce((group, rec) => {
+    rec.antecedent.forEach((antecedent) => {
+      if (!group[antecedent]) {
+        group[antecedent] = [];
+      }
+      group[antecedent].push(rec.consequent);
+    });
+    return group;
+  }, {});
+
+  // Render HTML for each antecedent and its associated consequents
+  for (const antecedent in groupedRecommendations) {
+    const antecedentProduct = products.find(
+      (p) => p.id === parseInt(antecedent)
+    );
+    const consequents = groupedRecommendations[antecedent];
+
+    recommendedHTML += `
+      <div class="recommended-frequently">
+        <img src="/${antecedentProduct.image}" alt="${antecedentProduct.title}" class="frequently-img" />
+        <i class='bx bx-plus-medical'></i>
+    `;
+
+    // Check if there's more than one consequent to add the + icon
+    consequents.forEach((consequentList, index) => {
+      consequentList.forEach((consequent, consequentIndex) => {
+        const consequentProduct = products.find(
+          (p) => p.id === parseInt(consequent)
+        );
+
+        // If it's the last item, do not append the + icon
+        recommendedHTML += `
+          <li>
+            <img src="/${consequentProduct.image}" alt="${consequentProduct.title}" class="frequently-img" />
+          </li>`;
+
+        // Only add the + icon if this is not the last consequent
+        if (
+          index < consequents.length - 1 ||
+          consequentIndex < consequentList.length - 1
+        ) {
+          recommendedHTML += `<i class='bx bx-plus-medical'></i>`;
+        }
+      });
+    });
+
+    recommendedHTML += `</div>`; // Closing the div for the antecedent
+  }
+
+  // Inject recommended products HTML into the page
+  $("#recommendedfrequently").html(recommendedHTML);
 }

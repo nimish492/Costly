@@ -395,6 +395,36 @@ hr {
   object-fit: cover; /* Maintain aspect ratio while cropping */
 }
 
+.frequently-img {
+  width: 60px;
+  height: 70px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  object-fit: cover;
+}
+.recommended-frequently {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  gap: 4rem;
+  margin-top: 15px;
+}
+#recommendedfrequently {
+  padding: 2rem;
+  border-radius: 20px;
+  height: 165px;
+  overflow-y: auto;
+  overflow-x: auto;
+  width: auto;
+  box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.2);
+}
+.frequent-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
 .footer {
   background: #1d18a8;
   padding: 40px 0;
