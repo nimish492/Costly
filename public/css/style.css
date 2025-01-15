@@ -417,12 +417,15 @@ hr {
   overflow-y: auto;
   overflow-x: auto;
   width: auto;
-  box-shadow: 10px 10px 20px 5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.15);
 }
+
 .frequent-container {
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+  overflow-y: auto;
+  overflow-x: auto;
 }
 
 .footer {
@@ -612,6 +615,17 @@ hr {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
   }
+  .frequently-img {
+    width: 48px;
+    height: 60px;
+  }
+
+  .recommended-frequently {
+    gap: 2rem;
+  }
+  #recommendedfrequently {
+    padding: 1rem;
+  }
 }
 
 @media (max-width: 390px) {
@@ -639,5 +653,17 @@ hr {
   .recommended-products {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
+  }
+
+  .frequently-img {
+    width: 48px;
+    height: 55px;
+  }
+
+  .recommended-frequently {
+    gap: 1rem;
+  }
+  #recommendedfrequently {
+    padding: 1rem;
   }
 }
