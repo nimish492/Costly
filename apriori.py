@@ -7,15 +7,15 @@ def apriori_algorithm(transaction_data, cart_data, min_support=0.01, min_confide
     # Convert transaction data into a DataFrame for the Apriori algorithm
     df = pd.DataFrame(transaction_data)
     df = df.applymap(lambda x: list(set(x)) if isinstance(x, list) else x)
-    df_encoded = pd.get_dummies(df.stack()).sum(level=0).astype(bool)
-
+    df_encoded = pd.get_dummies(df.stack()).groupby(level=0).sum().astype(bool)  # Fix sum error
+    
     # Find frequent itemsets using Apriori algorithm
     frequent_itemsets = apriori(df_encoded, min_support=min_support, use_colnames=True)
     
     if frequent_itemsets.empty:
         return []
     
-    # Generate association rules (add num_itemsets argument)
+    # Generate association rules
     rules = association_rules(frequent_itemsets, metric="confidence", min_threshold=min_confidence, num_itemsets=10)
     
     recommendations = []
