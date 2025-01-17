@@ -400,6 +400,7 @@ function addToCart(event) {
     renderCartItems();
     calculateCartTotal();
     updateCartIcon();
+    getFrequently();
   }
 }
 
@@ -486,6 +487,7 @@ if (window.location.pathname.includes("cart.html")) {
   getFrequently();
 } else {
   renderProducts();
+  updateCartIcon();
 }
 
 $(window).on("storage", updateCartIcon);
