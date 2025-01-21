@@ -511,7 +511,7 @@ function getRecommendations(productId) {
       .catch((error) => {
         console.error("Error fetching recommendations:", error);
       });
-  }, 10000);
+  }, 3000);
 }
 
 function showRecommendedProducts(recommendedProducts) {
