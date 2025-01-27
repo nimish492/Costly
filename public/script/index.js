@@ -481,12 +481,6 @@ function updateCartIcon() {
   $cartIcon.attr("data-quantity", totalQuantity === 0 ? 0 : totalQuantity);
 }
 
-$(window).on("pageshow", function (event) {
-  if (event.originalEvent.persisted) {
-    location.reload(); // Force a full page reload
-  }
-});
-
 if (window.location.pathname.includes("cart.html")) {
   renderCartItems();
   calculateCartTotal();
