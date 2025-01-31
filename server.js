@@ -7,7 +7,7 @@ const axios = require("axios");
 const fs = require("fs");
 const { promisify } = require("util");
 const app = express();
-const port = 3000;
+const port = 8000;
 // Simulated recommendations database
 const recommendations = {
   1: [

@@ -11,27 +11,23 @@
   list-style: none;
 }
 
-/* Customize the scrollbar width */
 ::-webkit-scrollbar {
   width: 12px;
   height: 12px;
 }
 
-/* Track */
 ::-webkit-scrollbar-track {
   background: #f1f1f1;
   border-radius: 10px;
 }
 
-/* Handle */
 ::-webkit-scrollbar-thumb {
   background: var(--main-color);
   border-radius: 10px;
 }
 
-/* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555; /* Darker gray on hover */
+  background: #555;
 }
 
 :root {
@@ -316,7 +312,6 @@ header.shadow {
   max-width: 150px;
 }
 
-/* Modal Styles */
 .product-modal {
   position: fixed;
   display: flex;
@@ -341,7 +336,8 @@ header.shadow {
   width: 100%;
   height: 47vh;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-  position: relative; /* Needed for positioning the close button */
+  position: relative;
+  overflow: auto;
 }
 
 hr {
@@ -381,7 +377,6 @@ hr {
   font-family: cursive;
 }
 
-/* Close Button */
 .close-modal {
   position: absolute;
   top: 10px;
@@ -396,26 +391,23 @@ hr {
   z-index: 999;
 }
 
-/* Recommended Products Container */
 .recommended-products {
   display: flex;
-  justify-content: space-evenly; /* Space out images evenly */
-  flex-wrap: nowrap; /* Prevent wrapping */
-  overflow-x: auto; /* Enable horizontal scrolling if needed */
+  justify-content: space-evenly;
+  flex-wrap: nowrap;
+  overflow-x: auto;
 }
 
-/* Each Recommended Product */
 .recommended-product {
   margin: 10px;
 }
 
-/* Recommended Product Image */
 .recommended-img {
-  width: 60px; /* Set a fixed width for images */
+  width: 60px;
   height: auto;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  object-fit: cover; /* Maintain aspect ratio while cropping */
+  object-fit: cover;
 }
 
 .frequently-img {
