@@ -1,25 +1,32 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
-const { spawn } = require("child_process"); // Changed from PythonShell to spawn
+const { spawn } = require("child_process");
+const mongoose = require("mongoose");
 const path = require("path");
-const axios = require("axios");
-const fs = require("fs");
-const mysql = require("mysql2");
 require("dotenv").config();
 
 const app = express();
-const port = 8000;
+const port = process.env.PORT || 8000;
 // Simulated recommendations database
-
-const pool = mysql.createPool({
-  host: process.env.host,
-  user: process.env.user,
-  password: process.env.password,
-  database: process.env.database,
+// Connect to MongoDB
+mongoose.connect(process.env.MONGODB_URI, {
+  ssl: true,
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
 });
 
-const promisePool = pool.promise();
+// Define a schema for the products collection
+const productSchema = new mongoose.Schema({
+  id: Number,
+  title: String,
+  price: Number,
+  image: String,
+  description: String,
+});
+
+const Product = mongoose.model("Product", productSchema);
+
 const recommendations = {
   1: [
     "images/40258.jpg",
@@ -318,9 +325,11 @@ app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "html", "index.html"));
 });
 
+// Endpoint to fetch all products from MongoDB
 app.get("/products", async (req, res) => {
   try {
-    const [products] = await promisePool.query("SELECT * FROM products");
+    // Fetch products from MongoDB
+    const products = await Product.find();
     res.json(products);
   } catch (error) {
     console.error("Error fetching products:", error);
