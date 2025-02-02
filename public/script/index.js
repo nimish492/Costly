@@ -500,7 +500,7 @@ function renderCartItems() {
                 data-id="${item.id}"
               />
             </div>
-            <h2 class="cart-item-price">₹${item.price.toFixed(2)}</h2>
+            <h2 class="cart-item-price">₹${Number(item.price).toFixed(2)}</h2>
             <button class="remove-from-cart" data-id="${
               item.id
             }">Remove</button>
