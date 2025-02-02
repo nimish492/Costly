@@ -261,6 +261,8 @@ function getFrequently() {
     return;
   }
   const cartItemIds = cart.map((item) => item.id); // Assuming `cart` is an array of cart items
+
+  // Fetch products dynamically before making the recommendations request
   fetch("/products")
     .then((response) => response.json())
     .then((products) => {
@@ -292,7 +294,7 @@ function getFrequently() {
     });
 }
 
-function showRecommendations(recommendations) {
+function showRecommendations(recommendations, products) {
   let recommendedHTML = "";
 
   // Group recommendations by antecedent
@@ -348,3 +350,7 @@ function showRecommendations(recommendations) {
   // Inject recommended products HTML into the page
   $("#recommendedfrequently").html(recommendedHTML);
 }
+
+$(document).ready(function () {
+  updateCartIcon();
+});
