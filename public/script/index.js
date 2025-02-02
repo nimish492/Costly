@@ -333,45 +333,90 @@ const $cartIcon = $("#cart-icon");
 let cart = JSON.parse(localStorage.getItem("cart")) || [];
 
 function renderProducts() {
-  const productHTML = products
-    .map(
-      (product) => `
+  fetch("/products")
+    .then((response) => response.json())
+    .then((products) => {
+      const productHTML = products
+        .map(
+          (product) => `
       <div class="product-catalog">
           <div class="product" data-id="${product.id}">
             <img src="${product.image}" alt="${
-        product.title
-      }" class="product-img">
+            product.title
+          }" class="product-img">
             <div class="product-info">
               <h2 class="product-title">${product.title}</h2>
-              <p class="product-price">₹${product.price.toFixed(2)}</p>
+              <p class="product-price">₹${Number(product.price).toFixed(2)}</p>
             </div>
           </div>
           <a class="add-to-cart" data-id="${product.id}">Add to cart</a>
           </div>
         `
-    )
-    .join("");
-  $productList.html(productHTML);
+        )
+        .join("");
+      $productList.html(productHTML);
 
-  $(".add-to-cart").on("click", addToCart);
+      $(".add-to-cart").on("click", function (event) {
+        const productID = parseInt($(event.target).data("id"));
+        const product = products.find((product) => product.id === productID);
+
+        if (product) {
+          const existingItem = cart.find((item) => item.id === productID);
+
+          if (existingItem) {
+            existingItem.quantity++;
+          } else {
+            const cartItem = {
+              id: product.id,
+              title: product.title,
+              price: product.price,
+              image: product.image,
+              quantity: 1,
+            };
+            cart.push(cartItem);
+          }
+          $(event.target).text("Added");
+          saveToLocalStorage();
+          renderCartItems();
+          calculateCartTotal();
+          updateCartIcon(); // Ensure cart icon is updated after adding
+          getFrequently();
+        }
+      });
+
+      // Attach product array to modal click event handler
+      $(".product").on("click", function () {
+        const productId = $(this).data("id");
+        const product = products.find((p) => p.id === productId); // Now products is passed to the event handler
+
+        if (product) {
+          $("#modalImage").attr("src", "");
+          $("#modalTitle").text("");
+          $("#modalPrice").text("");
+          $("#modalDescription").text("");
+          $("#recommendedProducts").html("");
+          // Show the clicked product's details in the modal
+          $("#modalImage").attr("src", product.image);
+          $("#modalTitle").text(product.title);
+          $("#modalPrice").text(`₹${Number(product.price).toFixed(2)}`);
+          $("#modalDescription").text(product.description);
+          $("#recommendedProducts").html(
+            '<div class="d-flex justify-content-center align-items-center w-100" style="grid-column: span 3; height: 100px;">' +
+              '<div class="spinner-border text-dark" role="status"></div>' +
+              "</div>"
+          );
+
+          // Fetch recommendations for the clicked product (using its image URL)
+          getRecommendations(product.id);
+          // Show modal
+          $("#productModal").fadeIn();
+        }
+      });
+    })
+    .catch((error) => console.error("Error fetching products:", error));
 }
 
-$(document).on("click", ".product", function () {
-  const productId = $(this).data("id");
-  const product = products.find((p) => p.id === productId);
-
-  if (product) {
-    $("#modalImage").attr("src", product.image);
-    $("#modalTitle").text(product.title);
-    $("#modalPrice").text(`₹${product.price.toFixed(2)}`);
-    $("#modalDescription").text(product.description);
-
-    getRecommendations(product.id);
-
-    $("#productModal").fadeIn();
-  }
-});
-
+// Event listener to close modal
 $("#closeModal").on("click", function () {
   $("#productModal").fadeOut();
 });

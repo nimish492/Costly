@@ -5,10 +5,21 @@ const { spawn } = require("child_process"); // Changed from PythonShell to spawn
 const path = require("path");
 const axios = require("axios");
 const fs = require("fs");
-const { promisify } = require("util");
+const mysql = require("mysql2");
+require("dotenv").config();
+
 const app = express();
 const port = 8000;
 // Simulated recommendations database
+
+const pool = mysql.createPool({
+  host: process.env.host,
+  user: process.env.user,
+  password: process.env.password,
+  database: process.env.database,
+});
+
+const promisePool = pool.promise();
 const recommendations = {
   1: [
     "images/40258.jpg",
@@ -305,6 +316,19 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 // Serve the index.html file on the root path
 app.get("/", (req, res) => {
   res.sendFile(path.join(__dirname, "public", "html", "index.html"));
+});
+
+app.get("/products", async (req, res) => {
+  try {
+    const [products] = await promisePool.query("SELECT * FROM products");
+    res.json(products);
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    res.status(500).json({
+      message: "Failed to fetch products",
+      error: error.message,
+    });
+  }
 });
 
 // Serve static files (e.g., product images)
