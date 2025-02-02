@@ -668,7 +668,8 @@ hr {
   }
 
   .frequently-img {
-    height: 8rem;
+    width: 48px;
+    height: 54px;
   }
 
   .recommended-frequently {
