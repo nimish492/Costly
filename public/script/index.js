@@ -261,26 +261,34 @@ function getFrequently() {
     return;
   }
   const cartItemIds = cart.map((item) => item.id); // Assuming `cart` is an array of cart items
-  fetch("/recommend-frequently", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body: JSON.stringify({
-      cartData: cartItemIds, // Send the cart item IDs to the server
-    }),
-  })
+  fetch("/products")
     .then((response) => response.json())
-    .then((data) => {
-      console.log("Recommendations received:", data); // Log the data received
-      if (data.length > 0) {
-        showRecommendations(data); // Assuming the response contains an array of recommendations
-      } else {
-        $("#recommendedfrequently").html();
-      }
+    .then((products) => {
+      // Now, fetch recommendations after products are available
+      fetch("/recommend-frequently", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          cartData: cartItemIds, // Send the cart item IDs to the server
+        }),
+      })
+        .then((response) => response.json())
+        .then((data) => {
+          console.log("Recommendations received:", data); // Log the data received
+          if (data.length > 0) {
+            showRecommendations(data, products); // Pass products along with recommendations
+          } else {
+            $("#recommendedfrequently").html();
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching recommendations:", error);
+        });
     })
     .catch((error) => {
-      console.error("Error fetching recommendations:", error);
+      console.error("Error fetching products:", error);
     });
 }
 
